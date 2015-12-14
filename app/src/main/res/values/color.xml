@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="lightblue">#377EB4</color>
+    <color name="lightred">#99ff33</color>
+    <color name="ColorPrimary">#FF5722</color>
+    <color name="ColorPrimaryDark">#E64A19</color>
+    <color name="tabsScrollColor">#8a140e</color>
+    <color name="listviewbody">#DBDBDB</color>
+    <color name="listitembody">#F7F7F7</color>
+</resources>

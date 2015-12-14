@@ -1,0 +1,86 @@
+<?php
+$servername = "mysql3.000webhost.com";
+$username = "a2170850_krishna";
+$password = "dozikey1";
+$dbname = "a2170850_doziman";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+} 
+
+$sql = "SELECT doziName FROM doziaddress";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        echo "id: " . $row["doziName"]. "<br>";
+    }
+} else {
+    echo "0 results";
+}
+$conn->close();
+?>
+
+<?php
+$con = mysql_connect("mysql.cis.ksu.edu","cis_id","password");
+$servername = "mysql3.000webhost.com";
+$username = "a2170850_krishna";
+$password = "dozikey1";
+$dbname = "a2170850_doziman";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+} 
+ 
+$sql = "INSERT INTO persons (doziId, doziName, doziAddress1, doziAddress2, doziCity, doziState, doziPhone) 
+		VALUES (rand ( 10001 , 10100 ), $_POST[custname], $_POST[custaddress1], $_POST[custaddress2],'Chennai', 'TN', $_POST[custphone])";
+ 
+if (!mysql_query($sql,$conn))
+  {
+  die('Error: ' . mysql_error());
+  }
+ 
+mysql_close($con)
+?>
+
+<?php
+$con = mysql_connect("mysql.cis.ksu.edu","cis_id","password");
+$servername = "mysql3.000webhost.com";
+$username = "a2170850_krishna";
+$password = "dozikey1";
+$dbname = "a2170850_doziman";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+} 
+
+;
+
+$sql = "SELECT doziName, dozilat, dozilong, ( 3959 * acos( cos( radians($_POST[custlat]) ) * cos( radians( dozilat ) ) * cos( radians( dozilong ) - radians($_POST[custlong]) ) 
+	+ sin( radians($_POST[custlat]) ) * sin( radians( dozilat ) ) ) ) AS distance FROM doziaddress HAVING distance < 25 ORDER BY distance LIMIT 0 , 20";
+$result = mysqli_query($sql);
+
+while($row = mysqli_fetch_array ($result))     
+{
+    $bus = array(
+	'name' => $row['doziName'],
+        'latitude' => $row['dozilat'],
+        'longitude' => $row['dozilng']
+    );
+    array_push($json, $bus);
+}
+
+$jsonstring = json_encode($json);
+echo $jsonstring;
+$conn->close();
+?>
