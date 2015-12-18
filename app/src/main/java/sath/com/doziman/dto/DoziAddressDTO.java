@@ -5,6 +5,7 @@ package sath.com.doziman.dto;
  */
 public class DoziAddressDTO {
 
+    private String doziId;
     private double doziLatitude;
     private double doziLongitude;
     private String doziName;
@@ -57,4 +58,13 @@ public class DoziAddressDTO {
     public void setDoziDistance(String doziDistance) {
         this.doziDistance = doziDistance;
     }
+
+    public String getDoziId() {
+        return doziId;
+    }
+
+    public void setDoziId(String doziId) {
+        this.doziId = doziId;
+    }
+
 }

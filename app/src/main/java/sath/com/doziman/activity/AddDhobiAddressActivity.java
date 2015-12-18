@@ -1,4 +1,4 @@
-package sath.com.doziman;
+package sath.com.doziman.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -23,6 +23,11 @@ import org.apache.http.message.BasicNameValuePair;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import sath.com.doziman.integration.HttpDataPostImpl;
+import sath.com.doziman.R;
+import sath.com.doziman.TransparentProgressDialog;
+import sath.com.doziman.utils.HelperUtil;
 
 /**
  * Created by Krishna on 10/15/2015.

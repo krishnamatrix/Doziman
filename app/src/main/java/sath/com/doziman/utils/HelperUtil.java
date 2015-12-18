@@ -1,4 +1,4 @@
-package sath.com.doziman;
+package sath.com.doziman.utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -44,5 +44,10 @@ public class HelperUtil {
                 (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    public static int getPixelsFromDp(Context context, float dp) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int)(dp * scale + 0.5f);
     }
 }

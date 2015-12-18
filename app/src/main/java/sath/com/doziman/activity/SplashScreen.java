@@ -1,4 +1,4 @@
-package sath.com.doziman;
+package sath.com.doziman.activity;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -20,6 +20,9 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
+
+import sath.com.doziman.R;
+import sath.com.doziman.utils.HelperUtil;
 
 /**
  * Created by Krishna on 10/8/2015.

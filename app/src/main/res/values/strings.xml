@@ -7,6 +7,7 @@
     <string name="no_internet_header">No Internet Connection</string>
     <string name="no_internet_body">Please check your Internet Connection and Try Again!!</string>
     <string name="customer_address_saved">Address Saved Successfully</string>
+    <string name="no_current_location">Unable to Fetch Current Location, Please try again later</string>
     <string name="areyousure">Are you Sure??</string>
     <string name="success">Success!!</string>
     <string name="map_view">Map View</string>

@@ -26,7 +26,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SplashScreen"
+            android:name=".activity.SplashScreen"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen">
             <intent-filter>
@@ -35,23 +35,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DozimanActivity"
+            android:name=".activity.DozimanActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <!--android:theme="@android:style/Theme.NoTitleBar.Fullscreen"> -->
         </activity>
         <activity
-            android:name=".AddCustomerAddressActivity"
+            android:name=".activity.AddCustomerAddressActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
         </activity>
         <activity
-            android:name=".AddDhobiAddressActivity"
+            android:name=".activity.AddDhobiAddressActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
         </activity>
         <activity
-            android:name=".ShowMapActivity"
+            android:name=".activity.ShowMapActivity"
             android:theme="@style/AppTheme">
         </activity>
 

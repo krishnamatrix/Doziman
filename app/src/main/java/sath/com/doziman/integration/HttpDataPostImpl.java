@@ -1,4 +1,4 @@
-package sath.com.doziman;
+package sath.com.doziman.integration;
 
 import android.util.Log;
 
@@ -35,13 +35,7 @@ public class HttpDataPostImpl {
         HttpPost httppost = new HttpPost("http://doziman.net84.net/insertaddress");
 
         try {
-            // Add your data
-            /*List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-            nameValuePairs.add(new BasicNameValuePair("id", "12345"));
-            nameValuePairs.add(new BasicNameValuePair("stringdata", "Hi"));*/
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            Log.i("","Came to posting request");
-            // Execute HTTP Post Request
             HttpResponse response = httpclient.execute(httppost);
             Log.i("","got response" + response.getStatusLine());
             return extractData(response);
@@ -67,6 +61,45 @@ public class HttpDataPostImpl {
             // Execute HTTP Post Request
             HttpResponse response = httpclient.execute(httppost);
             Log.i("","got response" + response.getStatusLine());
+            return getJsonMapData(response);
+        } catch (ClientProtocolException e) {
+            Log.i("", "ClientProtocolException");
+        } catch (IOException e) {
+            Log.i("", "IOException");
+        }
+        return null;
+    }
+    public static List<DoziAddressDTO> getDoziMarkerDataFromIds(List<String> doziIdsList, double curLat, double curLong) {
+        // Create a new HttpClient and Post Header
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost("http://doziman.net84.net/getdozibyid.php");
+        try {
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+            JSONArray jsArray = new JSONArray(doziIdsList);
+            nameValuePairs.add(new BasicNameValuePair("custlat", String.valueOf(curLat)));
+            nameValuePairs.add(new BasicNameValuePair("custlong", String.valueOf(curLong)));
+            nameValuePairs.add(new BasicNameValuePair("doziidlist",jsArray.toString()));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            HttpResponse response = httpclient.execute(httppost);
+            return getJsonMapData(response);
+        } catch (ClientProtocolException e) {
+            Log.i("", "ClientProtocolException");
+        } catch (IOException e) {
+            Log.i("", "IOException");
+        }
+        return null;
+    }
+    public static List<DoziAddressDTO> getDoziMarkerDataByLocation(String[] location) {
+        // Create a new HttpClient and Post Header
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost("http://doziman.net84.net/getdozibylocation.php");
+        try {
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+            nameValuePairs.add(new BasicNameValuePair("location", location[0]));
+            nameValuePairs.add(new BasicNameValuePair("custlat", location[1]));
+            nameValuePairs.add(new BasicNameValuePair("custlong", location[2]));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            HttpResponse response = httpclient.execute(httppost);
             return getJsonMapData(response);
         } catch (ClientProtocolException e) {
             Log.i("", "ClientProtocolException");
@@ -124,6 +157,7 @@ public class HttpDataPostImpl {
                 doziAddressDTO.setDoziAddress(jsonObject.optString("address").toString());
                 doziAddressDTO.setDoziMobile(jsonObject.optString("mobile").toString());
                 doziAddressDTO.setDoziDistance(jsonObject.optString("distance").toString());
+                doziAddressDTO.setDoziId(jsonObject.optString("doziid").toString());
 
                 markerList.add(doziAddressDTO);
                 //markerList.add(new MarkerOptions().position(new LatLng(lati, longi)).title("Dozi Location"));
@@ -155,5 +189,42 @@ public class HttpDataPostImpl {
         return stringBuilder.toString();
     }
 
+    public static List<String> searchLocations(String input) {
+        // Create a new HttpClient and Post Header
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost("http://doziman.net84.net/insertaddress");
+
+        try {
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+            nameValuePairs.add(new BasicNameValuePair("searchkey", input));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            HttpResponse response = httpclient.execute(httppost);
+            Log.i("","got response" + response.getStatusLine());
+            return getJsonSearchData(response);
+        } catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+        }
+        return null;
+    }
+    private static List<String> getJsonSearchData(HttpResponse httpResponse){
+        List<String> locationList = new ArrayList<String>();
+        try {
+            JSONObject jsonRootObject = new JSONObject(extractData(httpResponse));
+
+            //Get the instance of JSONArray that contains JSONObjects
+            JSONArray jsonArray = jsonRootObject.optJSONArray("locations");
+
+            ArrayList<String> list = new ArrayList<String>();
+            if (jsonArray != null) {
+                int len = jsonArray.length();
+                for (int i=0;i<len;i++){
+                    list.add(jsonArray.get(i).toString());
+                }
+            }
+        } catch (JSONException e) {e.printStackTrace();}
+        return locationList;
+    }
     //http://doziman.net84.net/getdozidata.php?custlat=12.9702205&custlong=80.251317
 }

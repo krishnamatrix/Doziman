@@ -11,152 +11,39 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:orientation="vertical">
-        <LinearLayout
-            android:id="@+id/linlaHeaderProgress"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone" >
-
-            <ProgressBar
-                android:id="@+id/pbHeaderProgress"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-            </ProgressBar>
-        </LinearLayout>
+        <AutoCompleteTextView
+            android:id="@+id/searchbylocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="65dp"
+            android:ems="10" />
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
-            android:layout_margin="15dp"
             android:id="@+id/listFrame"
             android:divider="@null"
             android:orientation="vertical"/>
-        <FrameLayout
+        <sath.com.doziman.MapWrapperLayout
+            android:id="@+id/mapFrame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="5dp"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="120dp"
-                android:layout_height="25dp"
-                android:background="@drawable/recentsearch"
-                android:layout_gravity="center_horizontal"
-                android:layout_centerInParent="true"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:maxWidth="150dp"
-                android:layout_height="wrap_content"
-                android:text="Near By:"
-                android:textColor="#FFFFFF"
-                android:layout_gravity="center_horizontal"
-                android:layout_centerInParent="true"
-                android:textSize="15sp"
-                />
-        </FrameLayout>
-
+            tools:context=".MainActivity" >
+            <fragment
+                android:id="@+id/googleMap"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                class="com.google.android.gms.maps.SupportMapFragment"
+                tools:layout="@layout/activity_map" />
+        </sath.com.doziman.MapWrapperLayout>
+        <ImageButton
+            android:layout_margin="15dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/mappointer"
+            android:id="@+id/imageButton"
+            android:layout_gravity="right|bottom" />
     </FrameLayout>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:background="#aaffffff"
-        android:orientation="horizontal">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_alignParentBottom="true"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:clickable="true"
-                android:orientation="vertical">
-                <Button
-                    android:id="@+id/listViewAddDhobi"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/cup"
-                    android:gravity="center"
-                    android:textColor="#fff" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_centerInParent="true"
-                    android:gravity="center"
-                    android:text="Add Dhobi"
-                    android:textSize="10sp"/>
-            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_alignParentBottom="true"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:clickable="true"
-                android:orientation="vertical">
-                <Button
-                    android:id="@+id/listViewUpdateAddress"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/plan"
-                    android:gravity="center"
-                    android:textColor="#fff" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:layout_weight="1"
-                    android:layout_centerInParent="true"
-                    android:gravity="center"
-                    android:text="Update Address"
-                    android:textSize="10sp"/>
-            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_alignParentBottom="true"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:clickable="true"
-                android:orientation="vertical">
-                <Button
-                    android:id="@+id/listviewsomebutton"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/select"
-                    android:gravity="center"
-                    android:textColor="#fff" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:layout_weight="1"
-                    android:layout_centerInParent="true"
-                    android:gravity="center"
-                    android:text="Some Function"
-                    android:textSize="10sp"/>
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
 </RelativeLayout>

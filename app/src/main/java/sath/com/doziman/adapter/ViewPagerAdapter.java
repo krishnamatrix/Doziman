@@ -1,4 +1,4 @@
-package sath.com.doziman.tabs;
+package sath.com.doziman.adapter;
 
 /**
  * Created by Krishna on 11/25/2015.
@@ -7,6 +7,10 @@ package sath.com.doziman.tabs;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+import sath.com.doziman.tabs.NearbyTab;
+import sath.com.doziman.tabs.RecentsTab;
+import sath.com.doziman.tabs.SearchbyTab;
 
 /**
  * Created by hp1 on 21-01-2015.
@@ -20,7 +24,6 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     // Build a Constructor and assign the passed Values to appropriate values in the class
     public ViewPagerAdapter(FragmentManager fm,CharSequence mTitles[], int mNumbOfTabsumb) {
         super(fm);
-
         this.Titles = mTitles;
         this.NumbOfTabs = mNumbOfTabsumb;
 
@@ -29,15 +32,25 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     //This method return the fragment for the every position in the View Pager
     @Override
     public Fragment getItem(int position) {
-        if(position == 0) {
-            RecentsTab tab1 = new RecentsTab();
-            return tab1;
-        } else if(position == 1) {
-            NearbyTab tab2 = new NearbyTab();
-            return tab2;
+        if(this.NumbOfTabs == 2){
+            if(position == 0) {
+                NearbyTab tab2 = new NearbyTab();
+                return tab2;
+            } else {
+                SearchbyTab tab2 = new SearchbyTab();
+                return tab2;
+            }
         } else {
-            SearchbyTab tab2 = new SearchbyTab();
-            return tab2;
+            if(position == 0) {
+                RecentsTab tab1 = new RecentsTab();
+                return tab1;
+            } else if(position == 1) {
+                NearbyTab tab2 = new NearbyTab();
+                return tab2;
+            } else {
+                SearchbyTab tab2 = new SearchbyTab();
+                return tab2;
+            }
         }
     }
 

@@ -1,10 +1,9 @@
-package sath.com.doziman;
+package sath.com.doziman.adapter;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,16 +12,22 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 import java.util.List;
 import java.util.Map;
 
+import sath.com.doziman.R;
+import sath.com.doziman.TransparentProgressDialog;
+import sath.com.doziman.activity.AddCustomerAddressActivity;
+import sath.com.doziman.asynctask.SendSMSTask;
 import sath.com.doziman.dto.AddressViewHolder;
 import sath.com.doziman.dto.DoziAddressDTO;
 import sath.com.doziman.dto.MapWrapper;
+import sath.com.doziman.dto.smsDTO;
+import sath.com.doziman.utils.IntentCaller;
+import sath.com.doziman.utils.StorageUtil;
 
 /**
  * Created by Krishna on 10/17/2015.
@@ -69,7 +74,7 @@ public class AddressListAdapter extends ArrayAdapter<DoziAddressDTO> {
         viewHolder.setDoziAddress(tv);
 
         tv = (TextView) addressView.findViewById(R.id.doziDistance);
-        tv.setText("1.4 Km");
+        tv.setText((double)(Math.round(Double.parseDouble(doziAddressDTO.getDoziDistance())*100))/100 + " Km");
         viewHolder.setDoziDistance(tv);
 
         //Hidden Fields
@@ -87,41 +92,45 @@ public class AddressListAdapter extends ArrayAdapter<DoziAddressDTO> {
         addressView.setTag(viewHolder);
 
         Button sendSMS = (Button) addressView.findViewById(R.id.sendSMS);
+
+        // Send SMS on click of Button. If the Customer Address is not saved, then redirect to Add Address Activity
         sendSMS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Gson gson = new Gson();
-                SharedPreferences settings = mycontext.getSharedPreferences("customer",
-                        Context.MODE_PRIVATE);
-                String wrapperStr = settings.getString("customeraddress", null);
-                MapWrapper wrapper = gson.fromJson(wrapperStr, MapWrapper.class);
-                HtKpi = wrapper.getMyMap();
+                String wrapperStr = StorageUtil.getCustomerAddress(mycontext);
+                if(wrapperStr == null) {
+                    MapWrapper wrapper = gson.fromJson(wrapperStr, MapWrapper.class);
+                    HtKpi = wrapper.getMyMap();
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(mycontext);
-                builder.setMessage(HtKpi.get("custaddress1") + "\n" + HtKpi.get("custaddress2")).setTitle(R.string.areyousure);
-                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        smsDTO smsdto = new smsDTO();
-                        smsdto.setName(HtKpi.get("custname"));
-                        smsdto.setMobileNo(doziPhone);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mycontext);
+                    builder.setMessage(HtKpi.get("custaddress1") + "\n" + HtKpi.get("custaddress2")).setTitle(R.string.areyousure);
+                    builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            smsDTO smsdto = new smsDTO();
+                            smsdto.setName(HtKpi.get("custname"));
+                            smsdto.setMobileNo(doziPhone);
+                            smsdto.setAddress(HtKpi.get("custaddress1") + "\n" + HtKpi.get("custaddress2"));
+                            new SendSMSTask(mycontext).execute(smsdto);
+                        }
+                    });
+                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //finish();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                } else {
+                    IntentCaller.callIntent((Activity)mycontext, AddCustomerAddressActivity.class);
+                }
 
-                        smsdto.setAddress(HtKpi.get("custaddress1") + "\n" + HtKpi.get("custaddress2"));
-                        new SendSMSTask().execute(smsdto);
-                    }
-                });
-                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //finish();
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
             }
         });
 
         return addressView;
     }
-    class SendSMSTask extends AsyncTask<smsDTO, Void, String> {
+    /*class SendSMSTask extends AsyncTask<smsDTO, Void, String> {
 
         private Exception exception;
         protected void onPostExecute(String status) {
@@ -143,7 +152,7 @@ public class AddressListAdapter extends ArrayAdapter<DoziAddressDTO> {
             HttpDataPostImpl.postSMS(params[0].getMobileNo(), params[0].getName() + "\n" + params[0].getAddress());
             return "";
         }
-    }
+    }*/
     /*public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         StringBuilder sb = new StringBuilder();
 
