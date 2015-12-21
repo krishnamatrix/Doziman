@@ -12,15 +12,23 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
+import sath.com.doziman.DelayAutoCompleteTextView;
+
 /**
  * Created by Krishna on 10/16/2015.
  */
 public class HelperUtil {
     public static void setupUI(View view) {
         //Set up touch listener for non-text box views to hide keyboard.
+        Log.i("","instance of"+(view instanceof EditText));
+        Log.i("","instance of Autocomplete"+(view instanceof AutoCompleteTextView));
         if(!(view instanceof EditText) && !(view instanceof AutoCompleteTextView)) {
             view.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(View v, MotionEvent event) {
+                    Log.i("","instance of"+(v instanceof EditText));
+                    Log.i("","instance of Autocomplete"+(v instanceof AutoCompleteTextView));
+                    Log.i("","instance of Autocomplete"+(v instanceof DelayAutoCompleteTextView));
+                    Log.i("","instance of Autocomplete"+(v.getClass().getName()));
                     Activity act = (Activity) v.getContext();
                     Log.i("","Came to UI");
                     hideSoftKeyboard(act);

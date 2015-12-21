@@ -3,33 +3,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/searchtabview"
     android:layout_width="match_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="match_parent"
     android:background="@color/listviewbody"
     android:orientation="vertical">
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-            <sath.com.doziman.DelayAutoCompleteTextView
-                android:id="@+id/searchbylocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_centerVertical="true"
-                android:dropDownVerticalOffset="5dp"
-                android:dropDownWidth="wrap_content"
-                android:ems="10"
-                android:imeOptions="flagNoExtractUi|actionDone"
-                android:inputType="textAutoComplete|textAutoCorrect"
-                android:popupBackground="#FFFFFF"
-                android:textColor="#FFFFFF" >
-                <requestFocus />
-            </sath.com.doziman.DelayAutoCompleteTextView>
+        android:orientation="vertical"
+        >
+        <sath.com.doziman.DelayAutoCompleteTextView
+            android:id="@+id/searchbylocation"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:dropDownVerticalOffset="5dp"
+            android:dropDownWidth="wrap_content"
+            android:ems="10"
+            android:background="#FFFFFF"
+            android:drawableLeft="@drawable/ic_action_search"
+            android:imeOptions="flagNoExtractUi|actionDone"
+            android:inputType="textAutoComplete|textAutoCorrect"
+            android:popupBackground="#FFFFFF"
+            android:textColor="#000000" >
+            <requestFocus />
+        </sath.com.doziman.DelayAutoCompleteTextView>
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
+            android:layout_marginTop="40dp"
             android:id="@+id/listFrame"
             android:divider="@null"
             android:orientation="vertical"/>
@@ -38,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone"
+            android:layout_marginTop="40dp"
             tools:context=".MainActivity" >
             <fragment
                 android:id="@+id/googleMap"

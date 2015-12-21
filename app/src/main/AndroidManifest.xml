@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="sath.com.doziman">
-    <uses-permission android:name="android.permission.INTERNET"/>
     <permission
         android:name="sath.com.doziman.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
