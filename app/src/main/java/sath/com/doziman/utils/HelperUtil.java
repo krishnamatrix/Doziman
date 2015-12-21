@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
 /**
@@ -16,10 +18,11 @@ import android.widget.EditText;
 public class HelperUtil {
     public static void setupUI(View view) {
         //Set up touch listener for non-text box views to hide keyboard.
-        if(!(view instanceof EditText)) {
+        if(!(view instanceof EditText) && !(view instanceof AutoCompleteTextView)) {
             view.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(View v, MotionEvent event) {
                     Activity act = (Activity) v.getContext();
+                    Log.i("","Came to UI");
                     hideSoftKeyboard(act);
                     return false;
                 }

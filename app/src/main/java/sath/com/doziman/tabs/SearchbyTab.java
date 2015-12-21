@@ -11,8 +11,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -34,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import sath.com.doziman.DelayAutoCompleteTextView;
 import sath.com.doziman.MapWrapperLayout;
 import sath.com.doziman.OnInfoWindowElemTouchListener;
 import sath.com.doziman.R;
@@ -48,7 +47,7 @@ import sath.com.doziman.utils.HelperUtil;
 /**
  * Created by Krishna on 11/25/2015.
  */
-public class SearchbyTab extends Fragment implements OnMapReadyCallback, AdapterView.OnItemClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class SearchbyTab extends Fragment implements OnMapReadyCallback, /*AdapterView.OnItemClickListener,*/ GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     ListView listView;
     AddressListAdapter arrayAdapter;
     List<DoziAddressDTO> addressDTOList = null;
@@ -68,10 +67,11 @@ public class SearchbyTab extends Fragment implements OnMapReadyCallback, Adapter
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         allMarkersMap = new HashMap<Marker, String>();
-        View v = inflater.inflate(R.layout.nearbytab,container,false);
+        View v = inflater.inflate(R.layout.searchbytab,container,false);
         SupportMapFragment supportMapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.googleMap);
         supportMapFragment.getMapAsync(this);
+        HelperUtil.setupUI(v.findViewById(R.id.searchtabview));
         mapWrapperLayout = (MapWrapperLayout)v.findViewById(R.id.mapFrame);
         pd = new TransparentProgressDialog(currentActivity, R.drawable.loadingspinner);
         addressDTOList = new ArrayList<DoziAddressDTO>();
@@ -96,10 +96,22 @@ public class SearchbyTab extends Fragment implements OnMapReadyCallback, Adapter
             }
         });
 
-        AutoCompleteTextView autoCompView = (AutoCompleteTextView) v.findViewById(R.id.searchbylocation);
+        DelayAutoCompleteTextView autoCompView = (DelayAutoCompleteTextView) v.findViewById(R.id.searchbylocation);
+        autoCompView.requestFocus();
         autoCompView.setThreshold(3);//will start working from first character
         autoCompView.setAdapter(new SearchAutoCompleteAdapter(currentActivity, R.layout.searchlistview));
-        autoCompView.setOnItemClickListener(this);
+        /*autoCompView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Get data associated with the specified position
+                // in the list (AdapterView)
+                String[] str = new String[3];
+                str[0] = (String) parent.getItemAtPosition(position);
+                str[1] = String.valueOf(currentLocation.getLatitude());
+                str[1] = String.valueOf(currentLocation.getLongitude());
+                new RetrieveSearchMarkersTask().execute(str);
+            }
+        });*/
 
         return v;
     }
@@ -110,13 +122,13 @@ public class SearchbyTab extends Fragment implements OnMapReadyCallback, Adapter
         super.onAttach(activity);
     }
 
-    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+   /* public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         String[] str = new String[3];
         str[0] = (String) adapterView.getItemAtPosition(position);
         str[1] = String.valueOf(currentLocation.getLatitude());
         str[1] = String.valueOf(currentLocation.getLongitude());
         new RetrieveSearchMarkersTask().execute(str);
-    }
+    }*/
 
     @Override
     public void onMapReady(GoogleMap map) {

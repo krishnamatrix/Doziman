@@ -61,7 +61,7 @@ public class SplashScreen extends Activity{
             public void onClick(View v) {
                 if(HelperUtil.isOnline(SplashScreen.this)) {
                     Intent intent = new Intent();
-                    intent.setClass(SplashScreen.this, DozimanActivity.class);
+                    intent.setClass(SplashScreen.this, ShowMapActivity.class);
 
                     SplashScreen.this.startActivity(intent);
                     SplashScreen.this.finish();
